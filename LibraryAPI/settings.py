@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
     "debug_toolbar",
     "rest_framework_simplejwt",
     "user",
@@ -117,11 +118,15 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = "user.User"
+
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     )
 }
+
+SIMPLE_JWT = {"AUTH_HEADER_NAME": "HTTP_AUTHORIZE"}
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
