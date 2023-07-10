@@ -21,4 +21,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("__debug__/", include("debug_toolbar.urls")),
     path("api/users/", include("user.urls", namespace="user")),
+    path("api/books/", include("book.urls", namespace="book")),
 ]
