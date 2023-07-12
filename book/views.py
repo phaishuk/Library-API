@@ -13,6 +13,8 @@ class BookPagination(PageNumberPagination):
 
 
 class BookViewSet(viewsets.ModelViewSet):
+    """Endpoint for CRUD operations with book"""
+
     queryset = Book.objects.order_by("title")
     pagination_class = BookPagination
 

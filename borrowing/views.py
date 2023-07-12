@@ -2,6 +2,7 @@ from django.db import transaction
 from django.db.models import QuerySet
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework import mixins, viewsets, status
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
@@ -28,6 +29,8 @@ class BorrowingViewSet(
     mixins.CreateModelMixin,
     viewsets.GenericViewSet,
 ):
+    """Endpoint for CRUD operations with borrowing (except delete)"""
+
     permission_classes = (IsAuthenticated,)
     pagination_class = BorrowingPagination
 
@@ -51,7 +54,7 @@ class BorrowingViewSet(
 
     def get_serializer_class(
         self,
-    ) -> BorrowingReadSerializer | BorrowingCreateSerializer:
+    ) -> type[BorrowingReadSerializer | BorrowingCreateSerializer]:
         if self.action in ("list", "retrieve"):
             return BorrowingReadSerializer
         if self.action == "create":
@@ -68,6 +71,20 @@ class BorrowingViewSet(
 
         return context
 
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                "is_active",
+                type=bool,
+                description="Filter by borrowing status: whether borrowing was returned or not",
+            ),
+            OpenApiParameter(
+                "user_id",
+                type=int,
+                description="Filter borrowings by user id: available only for admin users",
+            ),
+        ]
+    )
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
 
