@@ -22,7 +22,7 @@ Online management system for book borrowings.
 
 Docker should be installed.
 
-Create `.env` file with your variables (look at `.env.dockersample`
+Create `.env` file with your variables (look at `.env.sample`
 file, don't change `POSTGRES_DB` and `POSTGRES_HOST`).
 
 ```shell
