@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
+from datetime import timedelta
 
 from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
@@ -134,7 +135,10 @@ REST_FRAMEWORK = {
     )
 }
 
-SIMPLE_JWT = {"AUTH_HEADER_NAME": "HTTP_AUTHORIZE"}
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(weeks=999),
+    "REFRESH_TOKEN_LIFETIME": timedelta(weeks=999),
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
