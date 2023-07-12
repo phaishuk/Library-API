@@ -18,9 +18,8 @@ def get_chat_id(bot_token):
     result = dict_data["result"]
     last_update = max(result, key=lambda x: x["update_id"])
     chat = last_update["message"]["chat"]
-    chat_id = chat["id"]
-    return chat_id
+    return chat["id"]
 
 
 if __name__ == "__main__":
-    print(get_chat_id(settings.TELEGRAM_BOT_TOKEN))
+    print((get_chat_id(settings.TELEGRAM_BOT_TOKEN)))
