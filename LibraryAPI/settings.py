@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "debug_toolbar",
+    "django_q",
     "rest_framework_simplejwt",
     "user",
     "book",
@@ -82,7 +83,6 @@ ROOT_URLCONF = "LibraryAPI.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -140,12 +140,26 @@ SIMPLE_JWT = {
     "REFRESH_TOKEN_LIFETIME": timedelta(weeks=999),
 }
 
+Q_CLUSTER = {
+    "name": "library_service",
+    "workers": 8,
+    "recycle": 300,
+    "timeout": 60,
+    "catch_up": False,
+    "label": "Django Q",
+    "redis": {
+        "host": "127.0.0.1",
+        "port": 6379,
+        "db": 0,
+    },
+}
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Europe/Kiev"
 
 USE_I18N = True
 
