@@ -141,8 +141,8 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(weeks=999),
-    "REFRESH_TOKEN_LIFETIME": timedelta(weeks=999),
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=6),
+    "REFRESH_TOKEN_LIFETIME": timedelta(weeks=1),
 }
 
 Q_CLUSTER = {
