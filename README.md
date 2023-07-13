@@ -30,19 +30,6 @@ docker-compose build
 docker-compose up
 ```
 
-For activating daily scheduled notifications in Telegram
-open interactive console in `app` container:
-```shell
-docker-compose run app python manage.py shell
-```
-And write the following in the opened console:
-
-```shell
-from borrowing import tasks
-```
-The task will be first processed in a minute after activating 
-and will be scheduled for the same time the next day.
-
 ## How to run locally (without docker)
 
 Install PostgreSQL and create database.
@@ -59,7 +46,7 @@ pip install -r requirements.txt
 ```
 2. Set environment variables
 
-On Windows use ```export``` command instead of ```set```
+On Windows use `set` , on Unix systems (macOS, Linux) use `export`:
 ```shell
 set POSTGRES_HOST=<your db host>
 set POSTGRES_DB=<your db name>
