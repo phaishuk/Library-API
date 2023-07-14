@@ -38,7 +38,7 @@ Install PostgreSQL and create database.
 
 ```shell
 git clone git@github.com:phaishuk/Library-API.git
-cd library-service
+cd LibraryAPI
 python -m venv venv
 source venv/bin/activate # on MacOS
 venv\Scripts\activate # on Windows
@@ -46,17 +46,8 @@ pip install -r requirements.txt
 ```
 2. Set environment variables
 
-On Windows use `set` , on Unix systems (macOS, Linux) use `export`:
-```shell
-set POSTGRES_HOST=<your db host>
-set POSTGRES_DB=<your db name>
-set POSTGRES_USER=<your db user>
-set POSTGRES_PASSWORD=<your db password>
-set SECRET_KEY=<your Django secret key>
-set TELEGRAM_BOT_TOKEN=<your Telegram Bot token>
-set TELEGRAM_CHAT_ID=<your Telegram chat id>
-set STRIPE_API_KEY=<your Stripe API key>
-```
+Check out `.env.sample` file -> put all necessary variables -> rename `.env.sample` to `.env`
+
 3. Make migrations and run server
 
 ```shell
