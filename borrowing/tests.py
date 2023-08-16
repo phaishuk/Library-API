@@ -96,8 +96,6 @@ class AuthenticatedBorrowingTests(TestCase):
             inventory=5,
             daily_fee=2.99,
         )
-        print("Creating new book with data:", new_book.__dict__)
-
         data = {
             "expected_return_date": timezone.now().date() + timezone.timedelta(days=8),
             "book": new_book.id,
