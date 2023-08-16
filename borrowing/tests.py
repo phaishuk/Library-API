@@ -43,14 +43,12 @@ class AuthenticatedBorrowingTests(TestCase):
         )
         self.book = create_book()
         self.user1_borrowing = Borrowing.objects.create(
-            expected_return_date=timezone.now().date()
-            + timezone.timedelta(days=7),
+            expected_return_date=timezone.now().date() + timezone.timedelta(days=7),
             book=self.book,
             user=self.user1,
         )
         self.user2_borrowing = Borrowing.objects.create(
-            expected_return_date=timezone.now().date()
-            + timezone.timedelta(days=14),
+            expected_return_date=timezone.now().date() + timezone.timedelta(days=14),
             book=self.book,
             user=self.user2,
         )
@@ -67,17 +65,14 @@ class AuthenticatedBorrowingTests(TestCase):
 
     def test_borrowings_list_is_active_filter(self):
         self.user1_borrowing_returned = Borrowing.objects.create(
-            expected_return_date=timezone.now().date()
-            + timezone.timedelta(days=1),
+            expected_return_date=timezone.now().date() + timezone.timedelta(days=1),
             actual_return_date=timezone.now().date(),
             book=self.book,
             user=self.user1,
         )
         res = self.client.get(BORROWINGS_URL, data={"is_active": "true"})
         serializer_active = BorrowingReadSerializer(self.user1_borrowing)
-        serializer_returned = BorrowingReadSerializer(
-            self.user1_borrowing_returned
-        )
+        serializer_returned = BorrowingReadSerializer(self.user1_borrowing_returned)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertIn(serializer_active.data, res.data["results"])
@@ -101,18 +96,16 @@ class AuthenticatedBorrowingTests(TestCase):
             inventory=5,
             daily_fee=2.99,
         )
+        print("Creating new book with data:", new_book.__dict__)
+
         data = {
-            "expected_return_date": timezone.now().date()
-            + timezone.timedelta(days=8),
+            "expected_return_date": timezone.now().date() + timezone.timedelta(days=8),
             "book": new_book.id,
         }
         res_post = self.client.post(BORROWINGS_URL, data=data)
-
         new_borrowing = Borrowing.objects.get(book=new_book)
         serializer = BorrowingReadSerializer(new_borrowing)
-        detail_url = reverse(
-            "borrowing:borrowing-detail", args=[new_borrowing.id]
-        )
+        detail_url = reverse("borrowing:borrowing-detail", args=[new_borrowing.id])
         res_detail = self.client.get(detail_url)
 
         self.assertEqual(res_post.status_code, status.HTTP_201_CREATED)
@@ -130,15 +123,11 @@ class AuthenticatedBorrowingTests(TestCase):
         res_return = self.client.post(return_url)
         res_double_return = self.client.post(return_url)
         string_return_date = res_return.data["actual_return_date"]
-        return_date = datetime.datetime.strptime(
-            string_return_date, "%Y-%m-%d"
-        ).date()
+        return_date = datetime.datetime.strptime(string_return_date, "%Y-%m-%d").date()
 
         self.assertEqual(res_return.status_code, status.HTTP_200_OK)
         self.assertEqual(return_date, timezone.now().date())
-        self.assertEqual(
-            res_double_return.status_code, status.HTTP_400_BAD_REQUEST
-        )
+        self.assertEqual(res_double_return.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(
             res_double_return.data["non_field_errors"][0],
             "Borrowing has been already returned.",
@@ -160,23 +149,19 @@ class AdminBorrowingTests(TestCase):
         )
         self.book = create_book()
         self.user_borrowing = Borrowing.objects.create(
-            expected_return_date=timezone.now().date()
-            + timezone.timedelta(days=7),
+            expected_return_date=timezone.now().date() + timezone.timedelta(days=7),
             book=self.book,
             user=self.user,
         )
         self.admin_borrowing = Borrowing.objects.create(
-            expected_return_date=timezone.now().date()
-            + timezone.timedelta(days=14),
+            expected_return_date=timezone.now().date() + timezone.timedelta(days=14),
             book=self.book,
             user=self.admin,
         )
         self.client.force_authenticate(self.admin)
 
     def test_user_id_filter(self):
-        res = self.client.get(
-            BORROWINGS_URL, data={"user_id": str(self.user.id)}
-        )
+        res = self.client.get(BORROWINGS_URL, data={"user_id": str(self.user.id)})
         serializer_user = BorrowingReadSerializer(self.user_borrowing)
         serializer_admin = BorrowingReadSerializer(self.admin_borrowing)
 
